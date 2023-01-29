@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+    {% for account in accounts %}
+    <div class="block">
+      <div class="card">
+          <a href="{% url 'money_keeper_app:account' account.id %}">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <p class="title is-5">
+                  Account: {{ account.account_name }}
+                </p>
+                <p class="title is-6">
+                  Amount: {{ account.amount }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

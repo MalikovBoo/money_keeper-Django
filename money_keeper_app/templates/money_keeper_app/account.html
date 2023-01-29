@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+    <div class="block">
+      <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <p class="title is-5">
+                  Account: {{ account.account_name }}
+                </p>
+                <p class="title is-6">
+                  Amount: {{ account.amount }}
+                </p>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+   <div class="block">
+      {% for payment in payments %}
+      <div class="card">
+          <a href="#">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                {% if payment.income %}
+                    <p class="title is-5">
+                      Income: +{{ payment.count }} ({{payment.created_at}})
+                    </p>
+                    <p class="title is-6">
+                      {{ payment.income }}
+                    </p>
+                  {% else %}
+                    <p class="title is-5">
+                      Expense: -{{ payment.count }} ({{payment.created_at}})
+                    </p>
+                    <p class="title is-6">
+                      {{ payment.expense }}
+                    </p>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
