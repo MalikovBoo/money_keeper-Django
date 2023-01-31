@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import AccountForm
 from .models import Payment, Account
 
 
@@ -27,13 +28,37 @@ def account_page(request, pk):
         return render(request, "base.html")
 
 
-def income_list(request):
-    account = Account.objects.filter(user=request.user)[0]
-    incomes = Payment.objects.filter(account=account)
-    return render(request, "money_keeper_app/income_list.html", {"incomes": incomes})
+def add_account(request):
+    if request.user.is_authenticated:
+        form = AccountForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                account = form.save(commit=False)
+                account.user = request.user
+                account.save()
+                return redirect("money_keeper_app:dashboard")
+        return render(request, "money_keeper_app/add_account.html", {"form": form})
+
+    else:
+        # если неавторизован
+        return render(request, "base.html")
 
 
-def expense_list(request):
-    account = Account.objects.filter(user=request.user)[0]
-    expenses = Payment.objects.filter(account=account)
-    return render(request, "money_keeper_app/expense_list.html", {"expenses": expenses})
+def income_list(request, pk):
+    if request.user.is_authenticated:
+        account = Account.objects.get(pk=pk)
+        incomes = Payment.objects.filter(account=account.id, expense=None)
+        return render(request, "money_keeper_app/income_list.html", {"account": account, "incomes": incomes})
+    else:
+        # если неавторизован
+        return render(request, "base.html")
+
+
+def expense_list(request, pk):
+    if request.user.is_authenticated:
+        account = Account.objects.get(pk=pk)
+        expenses = Payment.objects.filter(account=account.id, income=None)
+        return render(request, "money_keeper_app/expense_list.html", {"account": account, "expenses": expenses})
+    else:
+        # если неавторизован
+        return render(request, "base.html")

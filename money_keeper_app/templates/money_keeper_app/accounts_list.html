@@ -23,6 +23,13 @@
       </div>
     </div>
     {% endfor %}
+    <div class="block is-one-third">
+        <a href="{% url 'money_keeper_app:add_account' %}">
+            <button class="button is-info ">
+                Add account
+            </button>
+        </a>
+    </div>
 </div>
 
 {% endblock content %}

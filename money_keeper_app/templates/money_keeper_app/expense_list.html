@@ -3,17 +3,17 @@
 {% block content %}
 
 <div class="column">
-
-{% for expense in expenses  %}
-
     <div class="block">
       <div class="card">
-        <a href="#">
+          <a href="{% url 'money_keeper_app:account' account.id %}">
           <div class="card-content">
             <div class="media">
               <div class="media-content">
                 <p class="title is-5">
-                  {{ expense }}
+                  Account: {{ account.account_name }}
+                </p>
+                <p class="title is-6">
+                  Amount: {{ account.amount }}
                 </p>
               </div>
             </div>
@@ -21,9 +21,48 @@
         </a>
       </div>
     </div>
+   <div class="block">
+      {% for expense in expenses %}
+      <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                    <p class="title is-5">
+                      Expense: -{{ expense.count }} ({{expense.created_at}})
+                    </p>
+                    <p class="title is-6">
+                      {{ expense.expense }}
+                    </p>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+</div>
 
-{% endfor %}
-
+<div class="column is-one-third">
+    <div class="block">
+        <a href="{% url 'money_keeper_app:account' account.id %}">
+            <button class="button is-info is-fullwidth">
+                All payments
+            </button>
+        </a>
+    </div>
+    <div class="block">
+        <a href="{% url 'money_keeper_app:income_list' account.id %}">
+            <button class="button is-info is-fullwidth">
+                Incomes
+            </button>
+        </a>
+    </div>
+    <div class="block">
+        <a href="{% url 'money_keeper_app:expense_list' account.id %}">
+            <button class="button is-info is-outlined is-fullwidth">
+                Expenses
+            </button>
+        </a>
+    </div>
 </div>
 
 {% endblock content %}
