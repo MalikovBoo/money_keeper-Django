@@ -2,7 +2,7 @@ from django import forms
 from .models import Account
 
 
-class AccountForm(forms.ModelForm):
+class NewAccountForm(forms.ModelForm):
 
     account_name = forms.CharField(
         required=True,
@@ -25,3 +25,20 @@ class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
         exclude = ("user",)
+
+
+class UpdAccountForm(forms.ModelForm):
+
+    account_name = forms.CharField(
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "Enter the name",
+                "class": "input is-success is-normal",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Account
+        fields = ["account_name"]

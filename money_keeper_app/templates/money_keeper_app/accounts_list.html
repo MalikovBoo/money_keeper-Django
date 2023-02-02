@@ -2,24 +2,38 @@
 
 {% block content %}
 
-<div class="column">
+<div class="column ">
     {% for account in accounts %}
-    <div class="block">
+    <div class="block ">
       <div class="card">
-          <a href="{% url 'money_keeper_app:account' account.id %}">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-5">
-                  Account: {{ account.account_name }}
-                </p>
-                <p class="title is-6">
-                  Amount: {{ account.amount }}
-                </p>
+          <div class="card-content ">
+              <div class="block ">
+                <a href="{% url 'money_keeper_app:account' account.id %}">
+                  <div class="media">
+                      <div class="media-content">
+                        <p class="title is-5">
+                          Account: {{ account.account_name }}
+                        </p>
+                        <p class="title is-6 ">
+                          Amount: {{ account.amount }}
+                        </p>
+                      </div>
+                  </div>
+                </a>
               </div>
-            </div>
+              <div class="block ">
+                <a href="{% url 'money_keeper_app:upd_account' account.id %}">
+                    <button class="button is-info ">
+                        Update
+                    </button>
+                </a>
+                <a href="{% url 'money_keeper_app:delete' account.id %}">
+                    <button class="button is-info ">
+                        Delete
+                    </button>
+                </a>
+              </div>
           </div>
-        </a>
       </div>
     </div>
     {% endfor %}
