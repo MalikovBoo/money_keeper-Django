@@ -8,7 +8,6 @@
       <div class="card">
           <div class="card-content ">
               <div class="block ">
-                <a href="{% url 'money_keeper_app:account' account.id %}">
                   <div class="media">
                       <div class="media-content">
                         <p class="title is-5">
@@ -19,9 +18,13 @@
                         </p>
                       </div>
                   </div>
-                </a>
               </div>
               <div class="block ">
+                <a href="{% url 'money_keeper_app:account' account.id %}">
+                    <button class="button is-info ">
+                        Open
+                    </button>
+                </a>
                 <a href="{% url 'money_keeper_app:upd_account' account.id %}">
                     <button class="button is-info ">
                         Update
