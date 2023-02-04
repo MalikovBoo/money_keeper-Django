@@ -36,6 +36,18 @@
                     </button>
                 </a>
               </div>
+              <div class="block ">
+                <a href="{% url 'money_keeper_app:add_income'  account.id %}">
+                    <button class="button is-info ">
+                        Add income
+                    </button>
+                </a>
+                <a href="{% url 'money_keeper_app:add_expense'  account.id %}">
+                    <button class="button is-info ">
+                        Add expense
+                    </button>
+                </a>
+              </div>
           </div>
       </div>
     </div>
