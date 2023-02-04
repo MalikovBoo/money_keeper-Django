@@ -72,7 +72,63 @@ class NewIncomeForm(forms.ModelForm):
         fields = ["count"]
 
 
+class UpdIncomeForm(forms.ModelForm):
+
+    choices_list = [(obj.id, str(obj)) for obj in IncomeType.objects.all()]
+
+    count = forms.FloatField(
+        required=True,
+        widget=forms.widgets.NumberInput(
+            attrs={
+                "class": " input is-info control ",
+            }
+        ),
+    )
+
+    income_type = forms.ChoiceField(
+        required=True,
+        widget=forms.widgets.Select(
+            attrs={
+                "class": " input is-info ",
+            }
+        ),
+        choices=choices_list
+    )
+
+    class Meta:
+        model = Payment
+        fields = ["count"]
+
+
 class NewExpenseForm(forms.ModelForm):
+
+    choices_list = [(obj.id, str(obj)) for obj in ExpenseType.objects.all()]
+
+    count = forms.FloatField(
+        required=True,
+        widget=forms.widgets.NumberInput(
+            attrs={
+                "class": " input is-info control ",
+            }
+        ),
+    )
+
+    expense_type = forms.ChoiceField(
+        required=True,
+        widget=forms.widgets.Select(
+            attrs={
+                "class": " input is-info ",
+            }
+        ),
+        choices=choices_list
+    )
+
+    class Meta:
+        model = Payment
+        fields = ["count"]
+
+
+class UpdExpenseForm(forms.ModelForm):
 
     choices_list = [(obj.id, str(obj)) for obj in ExpenseType.objects.all()]
 

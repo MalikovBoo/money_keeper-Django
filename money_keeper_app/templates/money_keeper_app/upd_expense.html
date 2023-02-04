@@ -6,15 +6,15 @@
     <div class="block">
         <div class="block">
             <p class="title is-2">
-                Add expense
+                Edit expense
             </p>
         </div>
-        <div class="block ">
-            <form method="post" class = "box">
+        <div class="block">
+            <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button class="button is-info is-fullwidth is-normal mt-5" type="submit">
-                    Add expense
+                    Update expense
                 </button>
             </form>
         </div>

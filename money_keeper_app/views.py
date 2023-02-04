@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import NewAccountForm, UpdAccountForm, NewIncomeForm, NewExpenseForm
+from .forms import NewAccountForm, UpdAccountForm, NewIncomeForm, UpdIncomeForm, NewExpenseForm, UpdExpenseForm
 from .models import Payment, Account, IncomeType, ExpenseType
 
 
@@ -89,6 +89,31 @@ def add_income(request, pk):
     return render(request, "money_keeper_app/add_income.html", {"form": form})
 
 
+def upd_income(request, pk_account, pk_payment):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    income_instance = Payment.objects.get(pk=pk_payment)
+    account = Account.objects.get(pk=pk_account)
+    account.amount -= income_instance.count
+    form = UpdIncomeForm(request.POST or None, instance=income_instance)
+    if request.method == "POST" and form.is_valid():
+        account.amount += form.cleaned_data['count']
+        account.save()
+        form.save()
+        return redirect("money_keeper_app:account", pk=pk_account)
+    return render(request, "money_keeper_app/upd_income.html", {"form": form})
+
+
+def delete_income(request, pk_account, pk_payment):
+    income = Payment.objects.get(pk=pk_payment)
+    account = Account.objects.get(pk=pk_account)
+    account.amount -= income.count
+    account.save()
+    income.delete()
+    return redirect("money_keeper_app:account", pk=pk_account)
+
+
 def expense_list(request, pk):
     if not request.user.is_authenticated:
         # если неавторизован
@@ -120,3 +145,28 @@ def add_expense(request, pk):
     else:
         form = NewExpenseForm()
     return render(request, "money_keeper_app/add_expense.html", {"form": form})
+
+
+def upd_expense(request, pk_account, pk_payment):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    expense_instance = Payment.objects.get(pk=pk_payment)
+    account = Account.objects.get(pk=pk_account)
+    account.amount += expense_instance.count
+    form = UpdExpenseForm(request.POST or None, instance=expense_instance)
+    if request.method == "POST" and form.is_valid():
+        account.amount -= form.cleaned_data['count']
+        account.save()
+        form.save()
+        return redirect("money_keeper_app:account", pk=pk_account)
+    return render(request, "money_keeper_app/upd_expense.html", {"form": form})
+
+
+def delete_expense(request, pk_account, pk_payment):
+    expense = Payment.objects.get(pk=pk_payment)
+    account = Account.objects.get(pk=pk_account)
+    account.amount += expense.count
+    account.save()
+    expense.delete()
+    return redirect("money_keeper_app:account", pk=pk_account)

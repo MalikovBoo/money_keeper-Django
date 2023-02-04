@@ -4,64 +4,101 @@
 
 <div class="column">
     <div class="block">
-      <div class="card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-5">
-                  Account: {{ account.account_name }}
-                </p>
-                <p class="title is-6">
-                  Amount: {{ account.amount }}
-                </p>
-              </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="columns">
+                    <div class="column">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-5">
+                                    Account: {{ account.account_name }}
+                                </p>
+                                <p class="title is-6">
+                                    Amount: {{ account.amount }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <a href="{% url 'money_keeper_app:upd_account' account.id %}">
+                            <button class="button is-info ">
+                                Update
+                            </button>
+                        </a>
+                        <a href="{% url 'money_keeper_app:add_income'  account.id %}">
+                            <button class="button is-info ">
+                                Add income
+                            </button>
+                        </a>
+                        <a href="{% url 'money_keeper_app:add_expense'  account.id %}">
+                            <button class="button is-info ">
+                                Add expense
+                            </button>
+                        </a>
+                    </div>
+                </div>
             </div>
-                <a href="{% url 'money_keeper_app:upd_account' account.id %}">
-                    <button class="button is-info ">
-                        Update
-                    </button>
-                </a>
-                <a href="{% url 'money_keeper_app:add_income'  account.id %}">
-                    <button class="button is-info ">
-                        Add income
-                    </button>
-                </a>
-                <a href="{% url 'money_keeper_app:add_expense'  account.id %}">
-                    <button class="button is-info ">
-                        Add expense
-                    </button>
-                </a>
-          </div>
-      </div>
+        </div>
     </div>
-   <div class="block">
-      {% for payment in payments %}
-      <div class="card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                {% if payment.income %}
-                    <p class="title is-5">
-                      Income: +{{ payment.count }} ({{payment.created_at}})
-                    </p>
-                    <p class="title is-6">
-                      {{ payment.income }}
-                    </p>
-                  {% else %}
-                    <p class="title is-5">
-                      Expense: -{{ payment.count }} ({{payment.created_at}})
-                    </p>
-                    <p class="title is-6">
-                      {{ payment.expense }}
-                    </p>
-                  {% endif %}
-              </div>
+    <div class="block">
+        {% for payment in payments %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            {% if payment.income %}
+                                <div class="columns">
+                                    <div class="column">
+                                        <p class="title is-5">
+                                            Income: +{{ payment.count }} ({{payment.created_at}})
+                                        </p>
+                                        <p class="title is-6">
+                                            {{ payment.income }}
+                                        </p>
+                                    </div>
+                                    <div class="column">
+                                        <a href="{% url 'money_keeper_app:upd_income' account.id payment.pk %}">
+                                            <button class="button is-info ">
+                                                Update income
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'money_keeper_app:delete_income' account.id payment.pk %}">
+                                            <button class="button is-info ">
+                                                Delete income
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="columns">
+                                    <div class="column">
+                                        <p class="title is-5">
+                                            Expense: -{{ payment.count }} ({{payment.created_at}})
+                                        </p>
+                                        <p class="title is-6">
+                                            {{ payment.expense }}
+                                        </p>
+                                    </div>
+                                    <div class="column">
+                                        <a href="{% url 'money_keeper_app:upd_expense' account.id payment.pk %}">
+                                            <button class="button is-info ">
+                                                Update expense
+                                            </button>
+                                        </a>
+                                        <a href="{% url 'money_keeper_app:delete_expense'  account.id payment.pk %}">
+                                            <button class="button is-info ">
+                                                Delete expense
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-      </div>
-      {% endfor %}
+        {% endfor %}
     </div>
-
 </div>
 
 <div class="column is-one-third">

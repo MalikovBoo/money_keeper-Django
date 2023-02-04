@@ -1,60 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="column ">
     {% for account in accounts %}
     <div class="block ">
-      <div class="card">
-          <div class="card-content ">
-              <div class="block ">
-                  <div class="media">
-                      <div class="media-content">
-                        <p class="title is-5">
-                          Account: {{ account.account_name }}
-                        </p>
-                        <p class="title is-6 ">
-                          Amount: {{ account.amount }}
-                        </p>
-                      </div>
-                  </div>
-              </div>
-              <div class="block ">
-                <a href="{% url 'money_keeper_app:account' account.id %}">
-                    <button class="button is-info ">
-                        Open
-                    </button>
-                </a>
-                <a href="{% url 'money_keeper_app:upd_account' account.id %}">
-                    <button class="button is-info ">
-                        Update
-                    </button>
-                </a>
-                <a href="{% url 'money_keeper_app:delete' account.id %}">
-                    <button class="button is-info ">
-                        Delete
-                    </button>
-                </a>
-              </div>
-              <div class="block ">
-                <a href="{% url 'money_keeper_app:add_income'  account.id %}">
-                    <button class="button is-info ">
-                        Add income
-                    </button>
-                </a>
-                <a href="{% url 'money_keeper_app:add_expense'  account.id %}">
-                    <button class="button is-info ">
-                        Add expense
-                    </button>
-                </a>
-              </div>
-          </div>
-      </div>
+        <div class="card">
+            <div class="card-content ">
+                <div class="columns">
+                    <div class="column">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-5">
+                                    Account: {{ account.account_name }}
+                                </p>
+                                <p class="title is-6 ">
+                                    Amount: {{ account.amount }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="block">
+                            <a href="{% url 'money_keeper_app:account' account.id %}">
+                                <button class="button is-info ">
+                                    Open
+                                </button>
+                            </a>
+                            <a href="{% url 'money_keeper_app:upd_account' account.id %}">
+                                <button class="button is-info ">
+                                    Update
+                                </button>
+                            </a>
+                            <a href="{% url 'money_keeper_app:delete' account.id %}">
+                                <button class="button is-info ">
+                                    Delete
+                                </button>
+                            </a>
+                        </div>
+                        <div class="block ">
+                            <a href="{% url 'money_keeper_app:add_income'  account.id %}">
+                                <button class="button is-info ">
+                                    Add income
+                                </button>
+                            </a>
+                            <a href="{% url 'money_keeper_app:add_expense'  account.id %}">
+                                <button class="button is-info ">
+                                    Add expense
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% endfor %}
-    <div class="block is-one-third">
+</div>
+<div class="column is-one-third">
+    <div class="block">
         <a href="{% url 'money_keeper_app:add_account' %}">
-            <button class="button is-info ">
+            <button class="button is-info is-fullwidth">
                 Add account
             </button>
         </a>

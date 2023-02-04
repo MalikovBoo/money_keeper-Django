@@ -4,15 +4,17 @@
 
 <div class="column is-one-third">
     <div class="block">
-      <div class="block">
-            <p class="title is-2">Edit account</p>
+        <div class="block">
+            <p class="title is-2">
+                Edit account
+            </p>
         </div>
         <div class="block">
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="button is-info is-fullwidth is-normal mt-5"
-                        type="submit">Update account
+                <button class="button is-info is-fullwidth is-normal mt-5" type="submit">
+                    Update account
                 </button>
             </form>
         </div>
