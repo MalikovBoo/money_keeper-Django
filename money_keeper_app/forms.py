@@ -44,9 +44,24 @@ class UpdAccountForm(forms.ModelForm):
         fields = ["account_name"]
 
 
-class NewIncomeForm(forms.ModelForm):
+class NewIncomeTypeForm(forms.ModelForm):
 
-    choices_list = [(obj.id, str(obj)) for obj in IncomeType.objects.all()]
+    income_type = forms.CharField(
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "Enter the type",
+                "class": "input is-success is-normal",
+            }
+        ),
+    )
+
+    class Meta:
+        model = IncomeType
+        fields = ['income_type']
+
+
+class NewIncomeForm(forms.ModelForm):
 
     count = forms.FloatField(
         required=True,
@@ -57,14 +72,14 @@ class NewIncomeForm(forms.ModelForm):
         ),
     )
 
-    income_type = forms.ChoiceField(
+    income_type = forms.ModelChoiceField(
         required=True,
         widget=forms.widgets.Select(
             attrs={
                 "class": " input is-info ",
             }
         ),
-        choices=choices_list
+        queryset=IncomeType.objects.all()
     )
 
     class Meta:
@@ -92,7 +107,7 @@ class UpdIncomeForm(forms.ModelForm):
                 "class": " input is-info ",
             }
         ),
-        choices=choices_list
+        choices=[(obj.id, str(obj)) for obj in IncomeType.objects.all()]
     )
 
     class Meta:
@@ -100,9 +115,24 @@ class UpdIncomeForm(forms.ModelForm):
         fields = ["count"]
 
 
-class NewExpenseForm(forms.ModelForm):
+class NewExpenseTypeForm(forms.ModelForm):
 
-    choices_list = [(obj.id, str(obj)) for obj in ExpenseType.objects.all()]
+    expense_type = forms.CharField(
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "Enter the type",
+                "class": "input is-success is-normal",
+            }
+        ),
+    )
+
+    class Meta:
+        model = ExpenseType
+        fields = ['expense_type']
+
+
+class NewExpenseForm(forms.ModelForm):
 
     count = forms.FloatField(
         required=True,
@@ -113,14 +143,14 @@ class NewExpenseForm(forms.ModelForm):
         ),
     )
 
-    expense_type = forms.ChoiceField(
+    expense_type = forms.ModelChoiceField(
         required=True,
         widget=forms.widgets.Select(
             attrs={
                 "class": " input is-info ",
             }
         ),
-        choices=choices_list
+        queryset=ExpenseType.objects.all()
     )
 
     class Meta:
@@ -148,7 +178,7 @@ class UpdExpenseForm(forms.ModelForm):
                 "class": " input is-info ",
             }
         ),
-        choices=choices_list
+        choices=[(obj.id, str(obj)) for obj in ExpenseType.objects.all()]
     )
 
     class Meta:

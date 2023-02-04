@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import NewAccountForm, UpdAccountForm, NewIncomeForm, UpdIncomeForm, NewExpenseForm, UpdExpenseForm
+from .forms import NewAccountForm, UpdAccountForm, \
+    NewIncomeTypeForm, NewIncomeForm, UpdIncomeForm, \
+    NewExpenseTypeForm, NewExpenseForm, UpdExpenseForm
 from .models import Payment, Account, IncomeType, ExpenseType
 
 
@@ -65,6 +67,19 @@ def income_list(request, pk):
     return render(request, "money_keeper_app/income_list.html", {"account": account, "incomes": incomes})
 
 
+def add_income_type(request):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    form = NewIncomeTypeForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        IncomeType.objects.create(
+            income_type=form.cleaned_data['income_type']
+        )
+        return redirect("money_keeper_app:dashboard")
+    return render(request, "money_keeper_app/add_income_type.html", {"form": form})
+
+
 def add_income(request, pk):
     if not request.user.is_authenticated:
         return render(request, "base.html")
@@ -72,8 +87,7 @@ def add_income(request, pk):
     if request.method == "POST":
         form = NewIncomeForm(request.POST)
         if form.is_valid():
-            income_id = form.cleaned_data["income_type"]
-            income_type = IncomeType.objects.get(id=income_id)
+            income_type = form.cleaned_data["income_type"]
             account = Account.objects.get(pk=pk)
             account.amount += form.cleaned_data['count']
             account.save()
@@ -123,6 +137,19 @@ def expense_list(request, pk):
     return render(request, "money_keeper_app/expense_list.html", {"account": account, "expenses": expenses})
 
 
+def add_expense_type(request):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    form = NewExpenseTypeForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        ExpenseType.objects.create(
+            expense_type=form.cleaned_data['expense_type']
+        )
+        return redirect("money_keeper_app:dashboard")
+    return render(request, "money_keeper_app/add_expense_type.html", {"form": form})
+
+
 def add_expense(request, pk):
     if not request.user.is_authenticated:
         return render(request, "base.html")
@@ -130,8 +157,7 @@ def add_expense(request, pk):
     if request.method == "POST":
         form = NewExpenseForm(request.POST)
         if form.is_valid():
-            expense_id = form.cleaned_data["expense_type"]
-            expense_type = ExpenseType.objects.get(id=expense_id)
+            expense_type = form.cleaned_data["expense_type"]
             account = Account.objects.get(pk=pk)
             account.amount -= form.cleaned_data['count']
             account.save()
