@@ -117,19 +117,19 @@ class UpdIncomeForm(forms.ModelForm):
         ),
     )
 
-    income_type = forms.ChoiceField(
+    income = forms.ModelChoiceField(
         required=True,
         widget=forms.widgets.Select(
             attrs={
                 "class": " input is-info ",
             }
         ),
-        choices=[(obj.id, str(obj)) for obj in IncomeType.objects.all()]
+        queryset=IncomeType.objects.all()
     )
 
     class Meta:
         model = Payment
-        fields = ["count"]
+        fields = ["count", "income"]
 
 
 class NewExpenseTypeForm(forms.ModelForm):
@@ -204,16 +204,16 @@ class UpdExpenseForm(forms.ModelForm):
         ),
     )
 
-    expense_type = forms.ChoiceField(
+    expense = forms.ModelChoiceField(
         required=True,
         widget=forms.widgets.Select(
             attrs={
                 "class": " input is-info ",
             }
         ),
-        choices=[(obj.id, str(obj)) for obj in ExpenseType.objects.all()]
+        queryset=ExpenseType.objects.all()
     )
 
     class Meta:
         model = Payment
-        fields = ["count"]
+        fields = ["count", "expense"]
