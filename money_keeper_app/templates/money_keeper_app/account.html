@@ -46,7 +46,7 @@
                 <div class="card-content">
                     <div class="media">
                         <div class="media-content">
-                            {% if payment.income %}
+                            {% if payment.payment_type == 'income' %}
                                 <div class="columns">
                                     <div class="column">
                                         <p class="title is-5">
@@ -102,29 +102,29 @@
 </div>
 
 <div class="column is-one-third">
-
-    <div class="block">
-        <a href="{% url 'money_keeper_app:account' account.id %}">
-            <button class="button is-info is-outlined is-fullwidth">
-                All payments
-            </button>
-        </a>
+    <div class="box">
+        <div class="block">
+            <a href="{% url 'money_keeper_app:account' account.id %}">
+                <button class="button is-info is-outlined is-fullwidth">
+                    All payments
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:income_list' account.id %}">
+                <button class="button is-info is-fullwidth">
+                    Incomes
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:expense_list' account.id %}">
+                <button class="button is-info is-fullwidth">
+                    Expenses
+                </button>
+            </a>
+        </div>
     </div>
-    <div class="block">
-        <a href="{% url 'money_keeper_app:income_list' account.id %}">
-            <button class="button is-info is-fullwidth">
-                Incomes
-            </button>
-        </a>
-    </div>
-    <div class="block">
-        <a href="{% url 'money_keeper_app:expense_list' account.id %}">
-            <button class="button is-info is-fullwidth">
-                Expenses
-            </button>
-        </a>
-    </div>
-
 </div>
 
 {% endblock content %}

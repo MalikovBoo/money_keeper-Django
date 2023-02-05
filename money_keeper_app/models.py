@@ -28,8 +28,9 @@ class ExpenseType(models.Model):
 class Payment(models.Model):
     account = models.ForeignKey(Account, related_name='payment', on_delete=models.CASCADE)
     count = models.FloatField()
-    income = models.ForeignKey(IncomeType, related_name='income', on_delete=models.DO_NOTHING, null=True, blank=True)
-    expense = models.ForeignKey(ExpenseType, related_name='expense', on_delete=models.DO_NOTHING, null=True, blank=True)
+    payment_type = models.CharField(max_length=10, default='income')
+    income = models.ForeignKey(IncomeType, related_name='income', on_delete=models.SET_NULL, null=True, blank=True)
+    expense = models.ForeignKey(ExpenseType, related_name='expense', on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

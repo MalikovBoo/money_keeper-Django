@@ -57,26 +57,28 @@
     {% endfor %}
 </div>
 <div class="column is-one-third">
-    <div class="block">
-        <a href="{% url 'money_keeper_app:add_account' %}">
-            <button class="button is-info is-fullwidth">
-                Add account
-            </button>
-        </a>
-    </div>
-    <div class="block">
-        <a href="{% url 'money_keeper_app:add_income_type' %}">
-            <button class="button is-info is-fullwidth">
-                Add income type
-            </button>
-        </a>
-    </div>
-    <div class="block">
-        <a href="{% url 'money_keeper_app:add_expense_type' %}">
-            <button class="button is-info is-fullwidth">
-                Add expense type
-            </button>
-        </a>
+    <div class="box">
+        <div class="block">
+            <a href="{% url 'money_keeper_app:add_account' %}">
+                <button class="button is-info is-fullwidth">
+                    Add account
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:show_income_types' %}">
+                <button class="button is-info is-fullwidth">
+                    Show income types
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:show_expense_types' %}">
+                <button class="button is-info is-fullwidth">
+                    Show expense types
+                </button>
+            </a>
+        </div>
     </div>
 </div>
 

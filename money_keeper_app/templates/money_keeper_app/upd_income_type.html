@@ -6,15 +6,15 @@
     <div class="box">
         <div class="block">
             <p class="title is-2">
-                Add income type
+                Edit income type
             </p>
         </div>
-        <div class="block ">
-            <form method="post" >
+        <div class="block">
+            <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button class="button is-info is-fullwidth is-normal mt-5" type="submit">
-                    Add income type
+                    Update income type
                 </button>
             </form>
         </div>

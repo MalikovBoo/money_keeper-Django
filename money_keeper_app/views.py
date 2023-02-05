@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import NewAccountForm, UpdAccountForm, \
-    NewIncomeTypeForm, NewIncomeForm, UpdIncomeForm, \
-    NewExpenseTypeForm, NewExpenseForm, UpdExpenseForm
+    NewIncomeTypeForm, NewIncomeForm, UpdIncomeForm, UpdIncomeTypeForm, \
+    NewExpenseTypeForm, NewExpenseForm, UpdExpenseForm, UpdExpenseTypeForm
 from .models import Payment, Account, IncomeType, ExpenseType
 
 
@@ -63,7 +63,7 @@ def income_list(request, pk):
         # если неавторизован
         return render(request, "base.html")
     account = Account.objects.get(pk=pk)
-    incomes = Payment.objects.filter(account=account.id, expense=None).order_by("-created_at")
+    incomes = Payment.objects.filter(account=account.id, payment_type="income").order_by("-created_at")
     return render(request, "money_keeper_app/income_list.html", {"account": account, "incomes": incomes})
 
 
@@ -80,6 +80,33 @@ def add_income_type(request):
     return render(request, "money_keeper_app/add_income_type.html", {"form": form})
 
 
+def show_income_types(request):
+    if not request.user.is_authenticated:
+        return render(request, "base.html")
+    income_type_list = IncomeType.objects.all().order_by("income_type")
+    return render(request, "money_keeper_app/show_income_types.html", {"income_type_list": income_type_list})
+
+
+def upd_income_type(request, id):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    income_type_instance = IncomeType.objects.get(id=id)
+    form = UpdIncomeTypeForm(request.POST or None, instance=income_type_instance)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("money_keeper_app:show_income_types")
+    return render(request, "money_keeper_app/upd_income_type.html", {"form": form})
+
+
+def delete_income_type(request, id):
+    if not request.user.is_authenticated:
+        return render(request, "base.html")
+    income_type = IncomeType.objects.get(id=id)
+    income_type.delete()
+    return redirect("money_keeper_app:show_income_types")
+
+
 def add_income(request, pk):
     if not request.user.is_authenticated:
         return render(request, "base.html")
@@ -93,6 +120,7 @@ def add_income(request, pk):
             account.save()
             Payment.objects.create(
                 account=Account.objects.get(pk=pk),
+                payment_type="income",
                 income=income_type,
                 count=form.cleaned_data['count'],
                 expense=None
@@ -133,7 +161,7 @@ def expense_list(request, pk):
         # если неавторизован
         return render(request, "base.html")
     account = Account.objects.get(pk=pk)
-    expenses = Payment.objects.filter(account=account.id, income=None).order_by("-created_at")
+    expenses = Payment.objects.filter(account=account.id, payment_type="expense").order_by("-created_at")
     return render(request, "money_keeper_app/expense_list.html", {"account": account, "expenses": expenses})
 
 
@@ -150,6 +178,33 @@ def add_expense_type(request):
     return render(request, "money_keeper_app/add_expense_type.html", {"form": form})
 
 
+def show_expense_types(request):
+    if not request.user.is_authenticated:
+        return render(request, "base.html")
+    expense_type_list = ExpenseType.objects.all().order_by("expense_type")
+    return render(request, "money_keeper_app/show_expense_types.html", {"expense_type_list": expense_type_list})
+
+
+def upd_expense_type(request, id):
+    if not request.user.is_authenticated:
+        # если неавторизован
+        return render(request, "base.html")
+    expense_type_instance = ExpenseType.objects.get(id=id)
+    form = UpdExpenseTypeForm(request.POST or None, instance=expense_type_instance)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("money_keeper_app:show_expense_types")
+    return render(request, "money_keeper_app/upd_expense_type.html", {"form": form})
+
+
+def delete_expense_type(request, id):
+    if not request.user.is_authenticated:
+        return render(request, "base.html")
+    expense_type = ExpenseType.objects.get(id=id)
+    expense_type.delete()
+    return redirect("money_keeper_app:show_expense_types")
+
+
 def add_expense(request, pk):
     if not request.user.is_authenticated:
         return render(request, "base.html")
@@ -163,6 +218,7 @@ def add_expense(request, pk):
             account.save()
             Payment.objects.create(
                 account=Account.objects.get(pk=pk),
+                payment_type="expense",
                 income=None,
                 count=form.cleaned_data['count'],
                 expense=expense_type

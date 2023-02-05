@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+    <div class="block">
+        {% for expense_type in expense_type_list %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <div class="columns">
+                                <div class="column">
+                                    <p class="title is-5">
+                                        Expense type: {{ expense_type }}
+                                    </p>
+                                </div>
+                                <div class="column">
+                                    <a href="{% url 'money_keeper_app:upd_expense_type' expense_type.id %}">
+                                        <button class="button is-info ">
+                                            Update
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'money_keeper_app:delete_expense_type' expense_type.id %}">
+                                        <button class="button is-info ">
+                                            Delete
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="column is-one-third">
+    <div class="box">
+        <div class="block">
+            <a href="{% url 'money_keeper_app:dashboard' %}">
+                <button class="button is-info is-fullwidth">
+                    Accounts list
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:show_income_types' %}">
+                <button class="button is-info is-fullwidth">
+                    Income type list
+                </button>
+            </a>
+        </div>
+        <div class="block">
+            <a href="{% url 'money_keeper_app:show_expense_types' %}">
+                <button class="button is-info is-outlined is-fullwidth">
+                    Expense type list
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="box">
+        <div class="block">
+            <a href="{% url 'money_keeper_app:add_expense_type' %}">
+                <button class="button is-info is-fullwidth">
+                    Add expense type
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

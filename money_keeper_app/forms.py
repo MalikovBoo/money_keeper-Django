@@ -61,6 +61,23 @@ class NewIncomeTypeForm(forms.ModelForm):
         fields = ['income_type']
 
 
+class UpdIncomeTypeForm(forms.ModelForm):
+
+    income_type = forms.CharField(
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "Enter the type",
+                "class": "input is-success is-normal",
+            }
+        ),
+    )
+
+    class Meta:
+        model = IncomeType
+        fields = ['income_type']
+
+
 class NewIncomeForm(forms.ModelForm):
 
     count = forms.FloatField(
@@ -117,6 +134,22 @@ class UpdIncomeForm(forms.ModelForm):
 
 class NewExpenseTypeForm(forms.ModelForm):
 
+    expense_type = forms.CharField(
+        required=True,
+        widget=forms.widgets.TextInput(
+            attrs={
+                "placeholder": "Enter the type",
+                "class": "input is-success is-normal",
+            }
+        ),
+    )
+
+    class Meta:
+        model = ExpenseType
+        fields = ['expense_type']
+
+
+class UpdExpenseTypeForm(forms.ModelForm):
     expense_type = forms.CharField(
         required=True,
         widget=forms.widgets.TextInput(
